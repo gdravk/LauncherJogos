@@ -11,14 +11,16 @@ import tela.jogos.*;
 public class tela extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    private String urlSelecionada;
+    public String urlSelecionada;
     private JButton botaoSelecionado; // Novo atributo para armazenar o botão selecionado
+    private botaoJogar botaoJogar; // Novo botão Jogar
+    private botaoAssistirTrailer botaoAssistirTrailer; // Novo botão Assistir Trailer
 
     public tela() {
         super("Java Games Launcher");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(650, 550);
+        setSize(850, 750);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -55,27 +57,15 @@ public class tela extends JFrame {
         JPanel segundaTela = new JPanel();
         segundaTela.setLayout(new BorderLayout());
 
-        JButton botaoJogar = new JButton("Assistir Trailer");
-        botaoJogar.setFont(new Font("Arial", Font.BOLD, 14));
-        Color verdeFolha = new Color(51, 153, 51);
-        botaoJogar.setBackground(verdeFolha);
-        botaoJogar.setForeground(Color.WHITE);
-        botaoJogar.setFocusPainted(false);
-        botaoJogar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (urlSelecionada != null) {
-                    try {
-                        abrirLink(urlSelecionada);
-                    } catch (IOException | URISyntaxException ex) {
-                        ex.printStackTrace();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Por favor, selecione um jogo antes de jogar.");
-                }
-            }
-        });
-        segundaTela.add(botaoJogar, BorderLayout.NORTH);
+        JPanel botoesPanel = new JPanel(new GridLayout(2, 1));
+
+        botaoJogar = new botaoJogar(); // Instanciando o novo botão Jogar
+        botoesPanel.add(botaoJogar);
+
+        botaoAssistirTrailer = new botaoAssistirTrailer(this); // Passando a instância de tela para o botão
+        botoesPanel.add(botaoAssistirTrailer); // Adicionando o botão Assistir Trailer
+
+        segundaTela.add(botoesPanel, BorderLayout.NORTH);
 
         infoJogos info = new infoJogos();
         JPanel panelJogos = new JPanel(new GridLayout(2, 3));
@@ -85,17 +75,26 @@ public class tela extends JFrame {
             botaoJogo.setIcon(new ImageIcon(jogo.getCaminhoIcone()));
             botaoJogo.setToolTipText(jogo.getNome() + "\n" + jogo.getDescricao());
             String url = info.getUrl(i);
-            botaoJogo.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    urlSelecionada = url;
-                    if (botaoSelecionado != null) {
-                        botaoSelecionado.setBackground(null); // Remova o destaque do botão anteriormente selecionado
-                    }
-                    botaoSelecionado = (JButton) e.getSource(); // Armazene o botão atualmente selecionado
-                    botaoSelecionado.setBackground(new Color(161, 159, 183));//quando clica no botao de selecionar o jogo fica com essa cor rgb cinza azulado no fundo
-                }
-            });
+
+
+            // Dentro do loop de criação dos botões de jogo
+botaoJogo.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        urlSelecionada = url;
+        botaoAssistirTrailer.setUrlSelecionada(urlSelecionada); // Configurando a URL selecionada no botão Assistir Trailer
+        botaoJogar.setNomeJogo(jogo.getNome()); // Definindo o nome do jogo no botão Jogar
+        if (botaoSelecionado != null) {
+            botaoSelecionado.setBackground(null); // Remova o destaque do botão anteriormente selecionado
+        }
+        botaoSelecionado = (JButton) e.getSource(); // Armazene o botão atualmente selecionado
+        botaoSelecionado.setBackground(new Color(161, 159, 183)); // quando clica no botao de selecionar o
+                                                                  // jogo fica com essa cor rgb cinza
+                                                                  // azulado no fundo
+    }
+});
+
+
             panelJogos.add(botaoJogo);
         }
         segundaTela.add(panelJogos, BorderLayout.CENTER);
@@ -124,11 +123,15 @@ public class tela extends JFrame {
         });
     }
 
-    private void abrirLink(String url) throws IOException, URISyntaxException {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            Desktop.getDesktop().browse(new URI(url));
-        } else {
-            JOptionPane.showMessageDialog(null, "Navegador não suportado.");
+    public void abrirLink(String url) {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(url));
+            } else {
+                JOptionPane.showMessageDialog(null, "Navegador não suportado.");
+            }
+        } catch (IOException | URISyntaxException ex) {
+            ex.printStackTrace();
         }
     }
 }

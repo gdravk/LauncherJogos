@@ -20,7 +20,7 @@ public class tela extends JFrame {
         super("Java Games Launcher");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(850, 750);
+        setSize(1920, 1080);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -50,6 +50,10 @@ public class tela extends JFrame {
                 cardLayout.next(cardPanel);
             }
         });
+
+        // Definindo o tamanho do botão iniciar launcher
+botaoIniciarLauncher.setPreferredSize(new Dimension(200, 60));
+
         primeiraTela.add(botaoIniciarLauncher, BorderLayout.SOUTH);
 
         cardPanel.add(primeiraTela, "primeiraTela");
@@ -71,29 +75,31 @@ public class tela extends JFrame {
         JPanel panelJogos = new JPanel(new GridLayout(2, 3));
         for (int i = 0; i < info.getJogos().size(); i++) {
             Jogo jogo = info.getJogos().get(i);
+
+            
             JButton botaoJogo = new JButton();
             botaoJogo.setIcon(new ImageIcon(jogo.getCaminhoIcone()));
             botaoJogo.setToolTipText(jogo.getNome() + "\n" + jogo.getDescricao());
             String url = info.getUrl(i);
 
+            // Criando o botão de informação e adicionando ao botão de jogo
+            botaoInfoJogos botaoInfo = new botaoInfoJogos(jogo.getDescricao());
+            botaoJogo.setLayout(new BorderLayout());
+            botaoJogo.add(botaoInfo, BorderLayout.NORTH); // Adicionando o botão de informação ao norte do botão de jogo
 
-            // Dentro do loop de criação dos botões de jogo
-botaoJogo.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        urlSelecionada = url;
-        botaoAssistirTrailer.setUrlSelecionada(urlSelecionada); // Configurando a URL selecionada no botão Assistir Trailer
-        botaoJogar.setNomeJogo(jogo.getNome()); // Definindo o nome do jogo no botão Jogar
-        if (botaoSelecionado != null) {
-            botaoSelecionado.setBackground(null); // Remova o destaque do botão anteriormente selecionado
-        }
-        botaoSelecionado = (JButton) e.getSource(); // Armazene o botão atualmente selecionado
-        botaoSelecionado.setBackground(new Color(161, 159, 183)); // quando clica no botao de selecionar o
-                                                                  // jogo fica com essa cor rgb cinza
-                                                                  // azulado no fundo
-    }
-});
-
+            botaoJogo.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    urlSelecionada = url;
+                    botaoAssistirTrailer.setUrlSelecionada(urlSelecionada); // Configurando a URL selecionada no botão Assistir Trailer
+                    botaoJogar.setNomeJogo(jogo.getNome()); // Definindo o nome do jogo no botão Jogar
+                    if (botaoSelecionado != null) {
+                        botaoSelecionado.setBackground(null); // Remove o destaque do botão anteriormente selecionado
+                    }
+                    botaoSelecionado = (JButton) e.getSource(); // Armazena o botão atualmente selecionado
+                    botaoSelecionado.setBackground(new Color(161, 159, 183)); // Definindo cor personalizada azul cinza
+                }
+            });
 
             panelJogos.add(botaoJogo);
         }
@@ -106,6 +112,10 @@ botaoJogo.addActionListener(new ActionListener() {
                 cardLayout.previous(cardPanel);
             }
         });
+
+        // Definindo o tamanho do botão voltar
+        botaoVoltar.setPreferredSize(new Dimension(200, 60));
+
         segundaTela.add(botaoVoltar, BorderLayout.SOUTH);
 
         cardPanel.add(segundaTela, "segundaTela");

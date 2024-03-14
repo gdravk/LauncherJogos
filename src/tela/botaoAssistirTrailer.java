@@ -1,6 +1,7 @@
 package tela;
 
 import javax.swing.*;
+import java.awt.Color;
 import java.awt.event.*;
 
 public class botaoAssistirTrailer extends JButton {
@@ -9,6 +10,7 @@ public class botaoAssistirTrailer extends JButton {
     // Construtor que aceita uma instância de tela como parâmetro
     public botaoAssistirTrailer(tela telaInstance) {
         super("Assistir Trailer");
+        setBackground(new Color(186, 186, 255));
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

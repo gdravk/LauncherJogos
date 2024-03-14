@@ -12,6 +12,7 @@ public class botaoJogar extends JButton {
 
     public botaoJogar() {
         super("Jogar");
+        setBackground(new Color(0, 168, 45)); // Definindo a cor de fundo como verde escuro
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

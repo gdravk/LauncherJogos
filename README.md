@@ -1,18 +1,28 @@
-## Getting Started
+# Launcher jogos java
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+# Sobre o projeto
 
-## Folder Structure
 
-The workspace contains two folders by default, where:
+A aplicação consiste em um launcher de games pré-definidos, na primeira tela se encontra a inicialização, na segunda tela pode-se encontrar os jogos juntamente com funções info, assistir trailer e a função principal jogar, caso exista um atalho em seu desktop com o nome do respectivo jogo selecionado, ele irá iniciar o jogo após clicar em jogar.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+# Tecnologias utilizadas
+## Back end
+- Java
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Front end
+- Java Swing
+- java awt
+- java net
+- java io
 
-## Dependency Management
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+# Como executar o projeto
+
+Executar o arquivo principal Launcher.java
+
+# Autor
+
+Gabriel Oliveira Silva
+
+https://github.com/gdravk
